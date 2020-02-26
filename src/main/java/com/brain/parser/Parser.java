@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExFsParser {
+public class Parser {
 
     /**
      * Completely run parser.
@@ -32,16 +32,17 @@ public class ExFsParser {
      */
     private List<String> parse() {
         System.out.println("Parsing page");
-        String url = "http://ex-fs.com/page/1"; // URL страницы
+        String url = "https://www.kinonews.ru"; // URL страницы
+        String urlPage = url + "/top100"; // URL страницы
         List<String> result = new ArrayList<>(); // пустой обьект списка
         try { // блок try...catch для обработки ошибок
-            Document document = Jsoup.connect(url).get(); // обьект HTML страницы
-            Elements links = document.select(".custom-poster img[src]"); // css селектор
+            Document document = Jsoup.connect(urlPage).get(); // обьект HTML страницы
+            Elements links = document.select(".rating_leftposter img[src]"); // css селектор
             for (Element link : links) { // цикл по выбранным елементам
                 // строим URL картинки:
                 // 1. берем host сайта
                 // 2. добавляем к нему значение источника картинки (в теге img у аттрибута src)
-                String imgUrl = "http://ex-fs.com/" + link.attr("src");
+                String imgUrl = url + link.attr("src");
                 result.add(imgUrl); // добавляем URL картинки к результатам
                 System.out.println(imgUrl);
             }
